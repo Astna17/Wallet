@@ -1,0 +1,11 @@
+package org.bibliotheque.Repository;
+
+import java.sql.SQLException;
+
+public interface CrudOperation<T> {
+    void insert(T toInsert) throws SQLException;
+
+    void update(T toUpdate) throws SQLException;
+
+    void delete(T toDelete) throws SQLException;
+}
