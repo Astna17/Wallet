@@ -1,4 +1,4 @@
-package org.bibliotheque;
+package com.functionality.td_wallet;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

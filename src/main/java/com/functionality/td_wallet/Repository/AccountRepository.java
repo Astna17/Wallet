@@ -1,7 +1,7 @@
-package org.bibliotheque.Repository;
+package com.functionality.td_wallet.Repository;
 
-import org.bibliotheque.DatabaseConnection;
-import org.bibliotheque.Entity.Account;
+import com.functionality.td_wallet.DatabaseConnection;
+import com.functionality.td_wallet.entity.Account;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

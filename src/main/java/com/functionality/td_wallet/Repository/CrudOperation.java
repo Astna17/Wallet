@@ -1,4 +1,4 @@
-package org.bibliotheque.Repository;
+package com.functionality.td_wallet.Repository;
 
 import java.sql.SQLException;
 
