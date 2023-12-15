@@ -1,5 +1,7 @@
 package com.functionality.td_wallet.entity;
 
+import com.functionality.td_wallet.Service.ExchangeRate;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -20,6 +22,10 @@ public class Account {
         this.transactions = transactions;
         this.devise = devise;
         this.type = type;
+    }
+
+    public Account(int idAccount, String name, double balance, Devise euro, String bank) {
+
     }
 
     public int getIdAccount() {
@@ -99,4 +105,39 @@ public class Account {
             balance += amount;
         }
     }
+
+
+    public void transferMoney(Account destinationAccount, double amount, LocalDateTime exchangeRateDate) {
+        if (this == destinationAccount) {
+            System.out.println("Error: Cannot transfer money to the same account.");
+            return;
+        }
+
+        if (amount <= 0) {
+            System.out.println("Error: Transfer amount must be greater than zero.");
+            return;
+        }
+
+        if (this.balance < amount) {
+            System.out.println("Error: Insufficient funds for the transfer.");
+            return;
+        }
+        Devise sourceCurrency = this.devise;
+        Devise targetCurrency = destinationAccount.devise;
+
+        double exchangeRate = ExchangeRate.getExchangeRate(sourceCurrency.getCode(),  targetCurrency.getCode(), dateUpdated);
+
+        // Convert the amount to the target currency
+        double convertedAmount = amount * exchangeRate;
+
+        // Effectuer le transfert depuis le compte source
+        this.performTransaction("Transfer to " + destinationAccount.getName(), amount, "debit");
+
+        // Effectuer le transfert vers le compte de destination
+        destinationAccount.performTransaction("Transfer from " + this.getName(), amount, "credit");
+
+        System.out.println("Transfer successful. New balance for " + this.getName() + ": " + this.getBalance());
+        System.out.println("New balance for " + destinationAccount.getName() + ": " + destinationAccount.getBalance());
+    }
+
 }
