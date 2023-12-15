@@ -3,6 +3,7 @@ package com.functionality.td_wallet.entity;
 import java.time.LocalDateTime;
 
 public class Transaction {
+
     private int idTransaction;
     private String label;
     private double amount;
@@ -62,7 +63,6 @@ public class Transaction {
     public void setType(String type) {
         this.type = type;
     }
-
     public Category getCategory() {
         return category;
     }

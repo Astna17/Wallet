@@ -1,25 +1,17 @@
 package com.functionality.td_wallet.entity;
-
-import com.functionality.td_wallet.entity.Transaction;
-
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Objects;
 
 public class Account {
-    private final int idAccount;
-    private final String name;
+    private int idAccount;
+    private String name;
     private double balance;
-    private final LocalDateTime dateUpdated;
-    private final List<Transaction> transactions;
-    private final Devise devise;
-    private final String type;
+    private LocalDateTime dateUpdated;
+    private List<Transaction> transactions;
+    private Devise devise;
+    private String type;
 
-    public Account(int idAccount, String name, double balance,
-                   LocalDateTime dateUpdated, List<Transaction> transactions,
-                   Devise devise, String type) {
+    public Account(int idAccount, String name, double balance, LocalDateTime dateUpdated, List<Transaction> transactions, Devise devise, String type) {
         this.idAccount = idAccount;
         this.name = name;
         this.balance = balance;
@@ -29,107 +21,119 @@ public class Account {
         this.type = type;
     }
 
+    public Account(int idAccount, String name, double balance, Devise euro, String bank) {
+
+    }
+
     public int getIdAccount() {
         return idAccount;
+    }
+
+    public void setIdAccount(int idAccount) {
+        this.idAccount = idAccount;
     }
 
     public String getName() {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public double getBalance() {
         return balance;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
     }
 
     public LocalDateTime getDateUpdated() {
         return dateUpdated;
     }
 
+    public void setDateUpdated(LocalDateTime dateUpdated) {
+        this.dateUpdated = dateUpdated;
+    }
+
+    public List<Transaction> getTransactions() {
+        return transactions;
+    }
+
+    public void setTransactions(List<Transaction> transactions) {
+        this.transactions = transactions;
+    }
+
     public Devise getDevise() {
         return devise;
     }
 
+    public void setDevise(Devise devise) {
+        this.devise = devise;
+    }
 
     public String getType() {
         return type;
     }
 
-    public void setTransactions() {
+    public void setType(String type) {
+        this.type = type;
     }
 
-    private static int transactionIdCounter = 0;
-    // Méthode de génération d'identifiant pour Transaction
-    private int generateTransactionId() {
-        return ++transactionIdCounter;
-    }
+    public void performTransaction(String label, double amount, String transactionType) {
+        int transactionId = transactions.size() + 1;
+        LocalDateTime dateTimeTransaction = LocalDateTime.now();
 
-
-    public double getBalanceAtDateTime(LocalDateTime dateTime) {
-        // Tri des transactions
-        transactions.sort(Comparator.comparing(Transaction::getDateTime));
-
-        double balance = 0;
-
-        for (Transaction transaction : transactions) {
-            LocalDateTime transactionDateTime = transaction.getDateTime();
-
-            if (!transactionDateTime.isAfter(dateTime)) {
-                if (transaction.getType().equals("credit")) {
-                    balance += transaction.getAmount();
-                } else {
-                    balance -= transaction.getAmount();
-                }
-            } else {
-                break;
+        if (transactionType.equals("debit")) {
+            if (!type.equals("Bank") && (balance - amount) < 0) {
+                System.out.println("Insufficient balance to perform the transaction.");
+                return;
             }
         }
 
-        return balance;
-    }
+        Transaction newTransaction = new Transaction(transactionId, label, amount, dateTimeTransaction, transactionType);
+        transactions.add(newTransaction);
 
-    public List<BalanceHistoryEntry> getBalanceHistoryInInterval(LocalDateTime startDateTime, LocalDateTime endDateTime) {
-        transactions.sort(Comparator.comparing(Transaction::getDateTime));
-
-        List<BalanceHistoryEntry> balanceHistory = new ArrayList<>();
-        double currentBalance = 0;
-
-        for (Transaction transaction : transactions) {
-            LocalDateTime transactionDateTime = transaction.getDateTime();
-
-            if (!transactionDateTime.isBefore(startDateTime) && !transactionDateTime.isAfter(endDateTime)) {
-                if (transaction.getType().equals("credit")) {
-                    currentBalance += transaction.getAmount();
-                } else {
-                    currentBalance -= transaction.getAmount();
-                }
-
-                balanceHistory.add(new BalanceHistoryEntry(transactionDateTime, currentBalance));
-            } else if (transactionDateTime.isAfter(endDateTime)) {
-
-                break;
-            }
-        }
-
-        return balanceHistory;
-    }
-
-
-    // Classe pour représenter une entrée d'historique du solde
-    public static class BalanceHistoryEntry {
-        private final LocalDateTime dateTime;
-        private final double balance;
-
-        public BalanceHistoryEntry(LocalDateTime dateTime, double balance) {
-            this.dateTime = dateTime;
-            this.balance = balance;
-        }
-
-        public LocalDateTime getDateTime() {
-            return dateTime;
-        }
-
-        public double getBalance() {
-            return balance;
+        // Update the balance
+        if (transactionType.equals("debit")) {
+            balance -= amount;
+        } else if (transactionType.equals("credit")) {
+            balance += amount;
         }
     }
+
+    public void transferMoney(Account destinationAccount, double amount, LocalDateTime exchangeRateDate) {
+        if (this == destinationAccount) {
+            System.out.println("Error: Cannot transfer money to the same account.");
+            return;
+        }
+
+        if (amount <= 0) {
+            System.out.println("Error: Transfer amount must be greater than zero.");
+            return;
+        }
+
+        if (this.balance < amount) {
+            System.out.println("Error: Insufficient funds for the transfer.");
+            return;
+        }
+        Devise sourceCurrency = this.devise;
+        Devise targetCurrency = destinationAccount.devise;
+
+        double exchangeRate = ExchangeRate.getExchangeRate(sourceCurrency.getCode(),  targetCurrency.getCode(), dateUpdated);
+
+        // Convert the amount to the target currency
+        double convertedAmount = amount * exchangeRate;
+
+        // Effectuer le transfert depuis le compte source
+        this.performTransaction("Transfer to " + destinationAccount.getName(), amount, "debit");
+
+        // Effectuer le transfert vers le compte de destination
+        destinationAccount.performTransaction("Transfer from " + this.getName(), amount, "credit");
+
+        System.out.println("Transfer successful. New balance for " + this.getName() + ": " + this.getBalance());
+        System.out.println("New balance for " + destinationAccount.getName() + ": " + destinationAccount.getBalance());
+    }
+
 }

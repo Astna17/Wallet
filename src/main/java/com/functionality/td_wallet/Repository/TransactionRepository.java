@@ -8,8 +8,8 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class TransactionRepository implements CrudOperation <Transaction> {
-    private final DatabaseConnection databaseConnection;
 
+<<<<<<< HEAD
     public TransactionRepository(DatabaseConnection databaseConnection) {
         this.databaseConnection = databaseConnection;
     }
@@ -60,4 +60,6 @@ public class TransactionRepository implements CrudOperation <Transaction> {
     }
 
 
+=======
+>>>>>>> b30c83e0e528c45518e255fb42aad9dd18253cab
 }
