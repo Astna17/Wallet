@@ -8,13 +8,15 @@ public class Transaction {
     private double amount;
     private LocalDateTime dateTime;
     private String type; // "debit" pour les sorties, "credit" pour les entrées
+    private Category category;
 
-    public Transaction(int idTransaction, String label, double amount, LocalDateTime dateTime, String type) {
+    public Transaction(int idTransaction, String label, double amount, LocalDateTime dateTime, String type, Category category) {
         this.idTransaction = idTransaction;
         this.label = label;
         this.amount = amount;
         this.dateTime = dateTime;
         this.type = type;
+        this.category = category;
     }
 
     public Transaction() {
@@ -61,4 +63,11 @@ public class Transaction {
         this.type = type;
     }
 
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
 }

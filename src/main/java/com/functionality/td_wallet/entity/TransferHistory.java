@@ -1,4 +1,4 @@
-package org.bibliotheque.Entity;
+package com.functionality.td_wallet.entity;
 
 import java.time.LocalDateTime;
 

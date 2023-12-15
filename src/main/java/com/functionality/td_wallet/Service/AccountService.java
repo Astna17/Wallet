@@ -1,7 +1,8 @@
 package com.functionality.td_wallet.Service;
 
-import org.bibliotheque.Entity.Account;
-import org.bibliotheque.Repository.AccountRepository;
+import com.functionality.td_wallet.Repository.AccountRepository;
+import com.functionality.td_wallet.entity.Account;
+
 
 import java.sql.SQLException;
 

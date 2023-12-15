@@ -1,6 +1,6 @@
 package com.functionality.td_wallet.Repository;
 
-import org.bibliotheque.Entity.TransferHistory;
+import com.functionality.td_wallet.entity.TransferHistory;
 
 import java.sql.SQLException;
 
