@@ -1,7 +1,5 @@
 package com.functionality.td_wallet.entity;
 
-import com.functionality.td_wallet.Service.ExchangeRate;
-
 import java.time.LocalDateTime;
 import java.util.List;
 
