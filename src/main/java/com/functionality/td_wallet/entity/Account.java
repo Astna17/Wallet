@@ -1,5 +1,7 @@
 package com.functionality.td_wallet.entity;
 
+import com.functionality.td_wallet.Service.ExchangeRate;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -103,7 +105,6 @@ public class Account {
             balance += amount;
         }
     }
-
 
     public void transferMoney(Account destinationAccount, double amount, LocalDateTime exchangeRateDate) {
         if (this == destinationAccount) {
