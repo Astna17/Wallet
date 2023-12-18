@@ -19,4 +19,3 @@ WHERE compte_id = sum_between_dates.compte_id
 
 RETURN solde;
 END;
-$$ LANGUAGE plpgsql;

@@ -13,4 +13,3 @@ FROM categories c
     AND t.compte_id = sum_per_category.compte_id
     AND t.date_transaction BETWEEN date_debut AND date_fin;
 END;
-$$ LANGUAGE plpgsql;

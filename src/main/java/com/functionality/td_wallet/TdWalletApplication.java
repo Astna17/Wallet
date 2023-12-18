@@ -2,14 +2,14 @@ package com.functionality.td_wallet;
 
 import com.functionality.td_wallet.Service.AccountBalanceCalculator;
 import com.functionality.td_wallet.Service.ExchangeRate;
-import com.functionality.td_wallet.entity.Account;
-import com.functionality.td_wallet.entity.Devise;
-import com.functionality.td_wallet.entity.Transaction;
-import com.functionality.td_wallet.entity.TransferHistory;
+import com.functionality.td_wallet.entity.*;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.functionality.td_wallet.Repository.MontantsParCategorieDAO.sommeMontantsParCategorieEntreDates;
 
 
 public class TdWalletApplication {
@@ -71,31 +71,30 @@ public class TdWalletApplication {
         LocalDateTime startTime = LocalDateTime.parse("2023-12-01T00:00");
         LocalDateTime endTime = LocalDateTime.parse("2023-12-06T23:59");
 
-        TransferHistory transferHistory = getBalanceHistory(account, startTime, endTime);
-
         System.out.println("Balance history between " + startTime + " and " + endTime + ":");
         }
 
-	public static TransferHistory getBalanceHistory(Account account, LocalDateTime startTime, LocalDateTime endTime) {
-		TransferHistory transferHistory = new TransferHistory();
-		double currentBalance = account.getBalance();
+        //TD2 - 3
 
-		for (Transaction transaction : account.getTransactions()) {
+            // Exemple d'utilisation
+
+	public static TransferHistory getTransfersInDateRange (Account account, LocalDateTime startTime, LocalDateTime endTime) {
+		TransferHistory transferHistory = new TransferHistory();
+
+        for (Transaction transaction : account.getTransactions()) {
 			LocalDateTime transactionDateTime = (LocalDateTime) transaction.getDateTime();
 
 			if (transactionDateTime.isAfter(startTime) && transactionDateTime.isBefore(endTime)) {
 				if ("credit".equals(transaction.getType())) {
-					currentBalance += transaction.getAmount();
-				} else if ("debit".equals(transaction.getType())) {
-					currentBalance -= transaction.getAmount();
-				}
+                } else if ("debit".equals(transaction.getType())) {
+                }
 
 
-                transferHistory.addTransfer(transaction.getAmount());
+                TransferHistory.addTransfer(transaction.getAmount());
 			}
 		}
 
-		return transferHistory;
+		return getTransfersInDateRange(account, startTime, endTime);
 
 	}
 }

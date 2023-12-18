@@ -1,4 +1,7 @@
-package com.functionality.td_wallet.entity;
+package com.functionality.td_wallet.Repository;
+
+import com.functionality.td_wallet.DatabaseConnection;
+import com.functionality.td_wallet.entity.MontantsParCategorie;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,16 +13,18 @@ import java.math.BigDecimal;
 
 public class MontantsParCategorieDAO {
 
-    private static final String JDBC_URL = "jdbc:postgresql://localhost/votre_base_de_donnees";
-    private static final String JDBC_USER = "votre_utilisateur";
-    private static final String JDBC_PASSWORD = "votre_mot_de_passe";
+    private static  DatabaseConnection databaseConnection ;
+
+    public MontantsParCategorieDAO (DatabaseConnection databaseConnection) {
+        this.databaseConnection = databaseConnection;
+    }
 
     public static MontantsParCategorie sommeMontantsParCategorieEntreDates(
             int compteId, Timestamp dateDebut, Timestamp dateFin) {
 
         MontantsParCategorie montantsParCategorie = null;
 
-        try (Connection connection = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD)) {
+        try (Connection connection = databaseConnection.openConnection()) {
             String sql = "SELECT " +
                     "COALESCE(SUM(CASE WHEN t.categorie = 'Restaurant' THEN t.montant ELSE 0 END), 0) AS restaurant, " +
                     "COALESCE(SUM(CASE WHEN t.categorie = 'Salaire' THEN t.montant ELSE 0 END), 0) AS salaire " +
@@ -42,24 +47,10 @@ public class MontantsParCategorieDAO {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
+
 
         return montantsParCategorie;
-    }
-
-    public static void main(String[] args) {
-        // Exemple d'utilisation
-        Timestamp dateDebut = Timestamp.valueOf("2023-12-01 00:00:00");
-        Timestamp dateFin = Timestamp.valueOf("2023-12-02 23:59:59");
-
-        MontantsParCategorie resultat = sommeMontantsParCategorieEntreDates(1, dateDebut, dateFin);
-
-        if (resultat != null) {
-            System.out.println("Restaurant : " + resultat.getRestaurant());
-            System.out.println("Salaire : " + resultat.getSalaire());
-        } else {
-            System.out.println("Aucun résultat trouvé.");
         }
-    }
 }
