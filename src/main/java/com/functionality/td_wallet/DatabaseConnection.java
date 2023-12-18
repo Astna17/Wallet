@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DatabaseConnection {
+    public static Connection openconnection;
+
     public Connection openConnection() throws SQLException {
         String dbUrl = System.getenv("DB_URL");
         String dbUser = System.getenv("DB_USER");

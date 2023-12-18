@@ -1,9 +1,6 @@
 package com.functionality.td_wallet.Repository;
-
 import com.functionality.td_wallet.entity.Devise;
 import com.functionality.td_wallet.DatabaseConnection;
-import com.functionality.td_wallet.entity.Devise;
-
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
