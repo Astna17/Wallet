@@ -20,10 +20,13 @@ public class TransferHistory {
             this.amount = amount;
             this.transferDate = LocalDateTime.now();
         }
+
+        public TransferRecord(double amount) {
+        }
     }
 
-    public static void addTransfer(Account sourceAccount, Account destinationAccount, double amount) {
-        TransferRecord transferRecord = new TransferRecord(sourceAccount, destinationAccount, amount);
+    public static void addTransfer(double amount) {
+        TransferRecord transferRecord = new TransferRecord(amount);
         transferRecords.add(transferRecord);
     }
 
