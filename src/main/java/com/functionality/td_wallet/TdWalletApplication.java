@@ -1,54 +1,15 @@
 package com.functionality.td_wallet;
 
-<<<<<<< HEAD
 import com.functionality.td_wallet.entity.Account;
 import com.functionality.td_wallet.entity.Devise;
-import com.functionality.td_wallet.entity.Transaction;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@SpringBootApplication
-public class TdWalletApplication {
-
-	public static Account main(String[] args) {
-		Account account = newAccount();
-
-		LocalDateTime startDateTime = LocalDateTime.of(2023,12,01,12,30);
-		LocalDateTime endDateTime = LocalDateTime.of(2023,12,06,16,00);
-
-		List<Account.BalanceHistoryEntry> balanceHistoryEntries = account.getBalanceHistoryInInterval(startDateTime,endDateTime);
-
-		for (Account.BalanceHistoryEntry entry : balanceHistoryEntries){
-			System.out.println("date et heure: " + entry.getDateTime() + "solde: " + entry.getBalance());
-		}
-		return account;
-	}
-
-	private static Account newAccount(){
-		Devise euro = new Devise(1,"euro","EUR");
-		Account account = new Account(1,"compte courant",0,LocalDateTime.now(),new ArrayList<>(),euro,"banque");
-
-		List<Transaction> transactions = new ArrayList<>();
-		transactions.add(new Transaction(1,"Salaire",10000,LocalDateTime.of(2023,12,14,11,18),"credit"));
-
-		account.setTransactions();
-
-		return account;
-=======
 import com.functionality.td_wallet.Service.AccountBalanceCalculator;
-import com.functionality.td_wallet.Service.BalanceHistory;
 import com.functionality.td_wallet.Service.ExchangeRate;
-import com.functionality.td_wallet.entity.Devise;
-import com.functionality.td_wallet.entity.Account;
-import com.functionality.td_wallet.entity.Transaction;
 import com.functionality.td_wallet.entity.TransferHistory;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 public class TdWalletApplication {
 
@@ -106,38 +67,6 @@ public class TdWalletApplication {
         transactions.add(new AccountBalanceCalculator.Transaction(2, "Christmas gift", 50000, "debit", LocalDateTime.parse("2023-12-02 2:00 PM")));
         transactions.add(new AccountBalanceCalculator.Transaction(3, "New shoe", 20000, "debit", LocalDateTime.parse("2023-12-06 4:00 PM")));
 
-        //3-
-        LocalDateTime startTime = LocalDateTime.parse("2023-12-01T00:00");
-        LocalDateTime endTime = LocalDateTime.parse("2023-12-06T23:59");
-
-        BalanceHistory balanceHistory = getBalanceHistory(account, startTime, endTime);
-
-        System.out.println("Balance history between " + startTime + " and " + endTime + ":");
-        for (BalanceHistory.BalanceHistoryEntry entry : balanceHistory.getEntries()) {
-            System.out.println(entry.getDateTime() + " - Balance: " + entry.getBalance());
-        }
     }
-
-	public static BalanceHistory getBalanceHistory(Account account, LocalDateTime startTime, LocalDateTime endTime) {
-		BalanceHistory balanceHistory = new BalanceHistory();
-		double currentBalance = account.getBalance();
-
-		for (Transaction transaction : account.getTransactions()) {
-			LocalDateTime transactionDateTime = transaction.getDateTime();
-
-			if (transactionDateTime.isAfter(startTime) && transactionDateTime.isBefore(endTime)) {
-				if ("credit".equals(transaction.getTransactionType())) {
-					currentBalance += transaction.getAmount();
-				} else if ("debit".equals(transaction.getTransactionType())) {
-					currentBalance -= transaction.getAmount();
-				}
-
-				balanceHistory.addEntry(transactionDateTime, currentBalance);
-			}
-		}
-
-		return balanceHistory;
->>>>>>> b30c83e0e528c45518e255fb42aad9dd18253cab
-	}
 
 }
