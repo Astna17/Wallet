@@ -14,16 +14,51 @@ public class TransferHistory {
         public double amount;
         public LocalDateTime transferDate;
 
+        public Account getSourceAccount() {
+            return sourceAccount;
+        }
+
+        public void setSourceAccount(Account sourceAccount) {
+            this.sourceAccount = sourceAccount;
+        }
+
+        public Account getDestinationAccount() {
+            return destinationAccount;
+        }
+
+        public void setDestinationAccount(Account destinationAccount) {
+            this.destinationAccount = destinationAccount;
+        }
+
+        public double getAmount() {
+            return amount;
+        }
+
+        public void setAmount(double amount) {
+            this.amount = amount;
+        }
+
+        public LocalDateTime getTransferDate() {
+            return transferDate;
+        }
+
+        public void setTransferDate(LocalDateTime transferDate) {
+            this.transferDate = transferDate;
+        }
+
         public TransferRecord(Account sourceAccount, Account destinationAccount, double amount) {
             this.sourceAccount = sourceAccount;
             this.destinationAccount = destinationAccount;
             this.amount = amount;
             this.transferDate = LocalDateTime.now();
         }
+
+        public TransferRecord(double amount) {
+        }
     }
 
-    public static void addTransfer(Account sourceAccount, Account destinationAccount, double amount) {
-        TransferRecord transferRecord = new TransferRecord(sourceAccount, destinationAccount, amount);
+    public static void addTransfer(double amount) {
+        TransferRecord transferRecord = new TransferRecord(amount);
         transferRecords.add(transferRecord);
     }
 

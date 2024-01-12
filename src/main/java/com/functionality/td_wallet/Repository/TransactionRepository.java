@@ -57,4 +57,27 @@ public class TransactionRepository implements CrudOperation <Transaction> {
             }
         }
     }
+
+    @Override
+    public void saveAll(Transaction toSaveAll) throws SQLException {
+
+    }
+
+
+    @Override
+    public void findAll(Transaction toFindAll) throws SQLException {
+        try (Connection connection = databaseConnection.openConnection()) {
+            String sql = "SELECT * FROM Transaction";
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                statement.setString(1, toFindAll.getLabel());
+                statement.setDouble(2, toFindAll.getAmount());
+                statement.setObject(3, toFindAll.getDateTime());
+                statement.setString(4, toFindAll.getType());
+                statement.setString(5, String.valueOf(toFindAll.getCategory()));
+                statement.executeUpdate();
+
+                statement.executeUpdate();
+            }
+        }
+    }
 }

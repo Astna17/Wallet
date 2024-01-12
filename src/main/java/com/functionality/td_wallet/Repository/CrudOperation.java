@@ -8,4 +8,8 @@ public interface CrudOperation<T> {
     void update(T toUpdate) throws SQLException;
 
     void delete(T toDelete) throws SQLException;
+
+    void saveAll(T toSaveAll) throws SQLException;
+
+    void findAll(T toFindAll) throws SQLException;
 }

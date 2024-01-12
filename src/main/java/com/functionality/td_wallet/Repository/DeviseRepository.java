@@ -1,6 +1,4 @@
 package com.functionality.td_wallet.Repository;
-
-
 import com.functionality.td_wallet.entity.Devise;
 import com.functionality.td_wallet.DatabaseConnection;
 
@@ -48,6 +46,25 @@ public class DeviseRepository implements CrudOperation <Devise>{
             String sql = "DELETE FROM devise WHERE id_devise=?";
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
                 statement.setInt(1, toDelete.getIdDevise());
+
+                statement.executeUpdate();
+            }
+        }
+    }
+
+    @Override
+    public void saveAll(Devise toSaveAll) throws SQLException {
+
+    }
+
+    @Override
+    public void findAll(Devise toFindAll) throws SQLException {
+        try (Connection connection = databaseConnection.openConnection()) {
+            String sql = "SELECT * FROM Devise";
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                statement.setString(1, toFindAll.getDeviseName());
+                statement.setString(2, toFindAll.getCode());
+                statement.setInt(3, toFindAll.getIdDevise());
 
                 statement.executeUpdate();
             }
