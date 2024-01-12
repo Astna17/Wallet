@@ -19,4 +19,14 @@ public class TransferHistoryRepository implements CrudOperation <TransferHistory
     public void delete(TransferHistory toDelete) throws SQLException {
 
     }
+
+    @Override
+    public void saveAll(TransferHistory toSaveAll) throws SQLException {
+
+    }
+
+    @Override
+    public void findAll(TransferHistory toFindAll) throws SQLException {
+
+    }
 }

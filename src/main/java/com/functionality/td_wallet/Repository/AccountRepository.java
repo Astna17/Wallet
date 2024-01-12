@@ -50,4 +50,28 @@ public class AccountRepository implements CrudOperation<Account> {
     public void delete(Account toDelete) throws SQLException {
 
     }
+
+    @Override
+    public void saveAll(Account toSaveAll) throws SQLException {
+
+
+    }
+
+    @Override
+    public void findAll(Account toFindAll) throws SQLException {
+        try (Connection connection = databaseConnection.openConnection()) {
+            String sql = "SELECT * FROM Account";
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                statement.setInt(1, toFindAll.getIdAccount());
+                statement.setString(2, toFindAll.getName());
+                statement.setDouble(3, toFindAll.getBalance());
+                statement.setObject(4, toFindAll.getDateUpdated());
+                statement.setInt(5, toFindAll.getDevise().getIdDevise());
+                statement.setString(6, toFindAll.getType());
+
+                statement.executeUpdate();
+            }
+        }
+
+    }
 }

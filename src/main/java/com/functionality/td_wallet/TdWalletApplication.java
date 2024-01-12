@@ -4,12 +4,9 @@ import com.functionality.td_wallet.Service.AccountBalanceCalculator;
 import com.functionality.td_wallet.Service.ExchangeRate;
 import com.functionality.td_wallet.entity.*;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.functionality.td_wallet.Repository.MontantsParCategorieDAO.sommeMontantsParCategorieEntreDates;
 
 
 public class TdWalletApplication {
@@ -73,11 +70,6 @@ public class TdWalletApplication {
 
         System.out.println("Balance history between " + startTime + " and " + endTime + ":");
         }
-
-        //TD2 - 3
-
-            // Exemple d'utilisation
-
 	public static TransferHistory getTransfersInDateRange (Account account, LocalDateTime startTime, LocalDateTime endTime) {
 		TransferHistory transferHistory = new TransferHistory();
 
