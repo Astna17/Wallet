@@ -1,14 +1,17 @@
 package com.functionality.td_wallet.Repository;
 import com.functionality.td_wallet.entity.Account;
 import com.functionality.td_wallet.DatabaseConnection;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+
 
 public class AccountRepository implements CrudOperation<Account> {
     private final DatabaseConnection databaseConnection;
 
     public AccountRepository(DatabaseConnection databaseConnection) {
+
         this.databaseConnection = databaseConnection;
     }
 
@@ -47,6 +50,15 @@ public class AccountRepository implements CrudOperation<Account> {
 
     @Override
     public void delete(Account toDelete) throws SQLException {
+        try (Connection connection = databaseConnection.openConnection()) {
+            String sql = "DELETE FROM account WHERE id_account=?";
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                statement.setInt(1, toDelete.getIdAccount());
 
+                statement.executeUpdate();
+            }
+        }
     }
+
+
 }

@@ -1,8 +1,11 @@
 package com.functionality.td_wallet;
 
+import com.functionality.td_wallet.Repository.AccountRepository;
 import com.functionality.td_wallet.entity.Account;
 import com.functionality.td_wallet.entity.Devise;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +16,9 @@ import com.functionality.td_wallet.entity.TransferHistory;
 
 public class TdWalletApplication {
 
+
 	public static void main(String[] args) {
+	/*
         // 1-
         Devise euro = new Devise(1, "Euro", "EUR");
         Devise ariary = new Devise(2, "Ariary", "MGA");
@@ -66,7 +71,16 @@ public class TdWalletApplication {
         transactions.add(new AccountBalanceCalculator.Transaction(1, "Salary", 100000, "credit", LocalDateTime.parse("2023-12-01 12:15 AM")));
         transactions.add(new AccountBalanceCalculator.Transaction(2, "Christmas gift", 50000, "debit", LocalDateTime.parse("2023-12-02 2:00 PM")));
         transactions.add(new AccountBalanceCalculator.Transaction(3, "New shoe", 20000, "debit", LocalDateTime.parse("2023-12-06 4:00 PM")));
-
+*/
+        Devise euro = new Devise(1, "Euro", "EUR");
+        Account account1 = new Account(1, "Account 1", 1000.0, euro, "bank");
+        Method[] IsMethods = account1.getClass().getDeclaredMethods();
+        for (int i=0; i<IsMethods.length; i++){
+                System.out.println(IsMethods[i].getName());
+        }
     }
+
+
+
 
 }
