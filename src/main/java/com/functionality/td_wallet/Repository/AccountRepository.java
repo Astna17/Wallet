@@ -14,15 +14,15 @@ public class AccountRepository implements CrudOperation<Account> {
     }
 
     @Override
-    public void insert(Account toInsert) throws SQLException {
+    public void save(Account toSave) throws SQLException {
         try (Connection connection = databaseConnection.openConnection()) {
             String sql = "INSERT INTO account (name, balance, date_updated, devise_id, type) VALUES (?, ?, ?, ?, ?)";
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
-                statement.setString(1, toInsert.getName());
-                statement.setDouble(2, toInsert.getBalance());
-                statement.setObject(3, toInsert.getDateUpdated());
-                statement.setInt(4, toInsert.getDevise().getIdDevise());
-                statement.setString(5, toInsert.getType());
+                statement.setString(1, toSave.getName());
+                statement.setDouble(2, toSave.getBalance());
+                statement.setObject(3, toSave.getDateUpdated());
+                statement.setInt(4, toSave.getDevise().getIdDevise());
+                statement.setString(5, toSave.getType());
 
                 statement.executeUpdate();
             }
@@ -50,17 +50,10 @@ public class AccountRepository implements CrudOperation<Account> {
     public void delete(Account toDelete) throws SQLException {
 
     }
-
-    @Override
-    public void saveAll(Account toSaveAll) throws SQLException {
-
-
-    }
-
     @Override
     public void findAll(Account toFindAll) throws SQLException {
         try (Connection connection = databaseConnection.openConnection()) {
-            String sql = "SELECT * FROM Account";
+            String sql = "SELECT * FROM account";
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
                 statement.setInt(1, toFindAll.getIdAccount());
                 statement.setString(2, toFindAll.getName());
