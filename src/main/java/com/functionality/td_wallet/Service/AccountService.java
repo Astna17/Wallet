@@ -13,7 +13,7 @@ public class AccountService {
 
     public void addAccount(Account account) {
         try {
-            accountRepository.insert(account);
+            accountRepository.save(account);
         } catch (SQLException e) {
             // Gérer l'exception
             e.printStackTrace();
@@ -34,6 +34,14 @@ public class AccountService {
             accountRepository.delete(account);
         } catch (SQLException e) {
             // Gérer l'exception
+            e.printStackTrace();
+        }
+    }
+
+    public void findAllAccount(Account account) {
+        try {
+            accountRepository.findAll(account);
+        } catch (SQLException e){
             e.printStackTrace();
         }
     }

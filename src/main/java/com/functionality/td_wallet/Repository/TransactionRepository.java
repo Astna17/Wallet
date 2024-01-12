@@ -15,22 +15,22 @@ public class TransactionRepository implements CrudOperation <Transaction> {
     }
 
     @Override
-    public void insert(Transaction toInsert) throws SQLException {
+    public void save (Transaction toSave) throws SQLException {
         try (Connection connection = databaseConnection.openConnection()) {
             String sql = "INSERT INTO transaction (label, amount, date_hour, type) VALUES (?, ?, ?, ?)";
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
-                statement.setString(1, toInsert.getLabel());
-                statement.setDouble(2, toInsert.getAmount());
-                statement.setObject(3, toInsert.getDateTime());
-                statement.setString(4, toInsert.getType());
-                statement.setString(5, String.valueOf(toInsert.getCategory()));
+                statement.setString(1, toSave.getLabel());
+                statement.setDouble(2, toSave.getAmount());
+                statement.setObject(3, toSave.getDateTime());
+                statement.setString(4, toSave.getType());
+                statement.setString(5, String.valueOf(toSave.getCategory()));
                 statement.executeUpdate();
             }
         }
     }
 
     @Override
-    public void update(com.functionality.td_wallet.entity.Transaction toUpdate) throws SQLException {
+    public void update(Transaction toUpdate) throws SQLException {
         try (Connection connection = databaseConnection.openConnection()) {
             String sql = "UPDATE transaction SET label=?, amount=?, date_hour=?, type=? WHERE id_transaction=?";
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -47,7 +47,7 @@ public class TransactionRepository implements CrudOperation <Transaction> {
     }
 
     @Override
-    public void delete(com.functionality.td_wallet.entity.Transaction toDelete) throws SQLException {
+    public void delete(Transaction toDelete) throws SQLException {
         try (Connection connection = databaseConnection.openConnection()) {
             String sql = "DELETE FROM transaction WHERE id_transaction=?";
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -59,15 +59,9 @@ public class TransactionRepository implements CrudOperation <Transaction> {
     }
 
     @Override
-    public void saveAll(Transaction toSaveAll) throws SQLException {
-
-    }
-
-
-    @Override
     public void findAll(Transaction toFindAll) throws SQLException {
         try (Connection connection = databaseConnection.openConnection()) {
-            String sql = "SELECT * FROM Transaction";
+            String sql = "SELECT * FROM transaction";
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
                 statement.setString(1, toFindAll.getLabel());
                 statement.setDouble(2, toFindAll.getAmount());

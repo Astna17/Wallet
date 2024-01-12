@@ -14,12 +14,12 @@ public class DeviseRepository implements CrudOperation <Devise>{
     }
 
     @Override
-    public void insert(Devise toInsert) throws SQLException {
+    public void save (Devise toSave) throws SQLException {
         try (Connection connection = databaseConnection.openConnection()) {
             String sql = "INSERT INTO devise (devise_name, code) VALUES (?, ?)";
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
-                statement.setString(1, toInsert.getDeviseName());
-                statement.setString(2, toInsert.getCode());
+                statement.setString(1, toSave.getDeviseName());
+                statement.setString(2, toSave.getCode());
 
                 statement.executeUpdate();
             }
@@ -51,12 +51,6 @@ public class DeviseRepository implements CrudOperation <Devise>{
             }
         }
     }
-
-    @Override
-    public void saveAll(Devise toSaveAll) throws SQLException {
-
-    }
-
     @Override
     public void findAll(Devise toFindAll) throws SQLException {
         try (Connection connection = databaseConnection.openConnection()) {

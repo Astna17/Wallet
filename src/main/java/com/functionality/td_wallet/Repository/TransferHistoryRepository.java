@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class TransferHistoryRepository implements CrudOperation <TransferHistory>{
     @Override
-    public void insert(TransferHistory toInsert) throws SQLException {
+    public void save(TransferHistory toSave) throws SQLException {
 
     }
 
@@ -20,10 +20,6 @@ public class TransferHistoryRepository implements CrudOperation <TransferHistory
 
     }
 
-    @Override
-    public void saveAll(TransferHistory toSaveAll) throws SQLException {
-
-    }
 
     @Override
     public void findAll(TransferHistory toFindAll) throws SQLException {
